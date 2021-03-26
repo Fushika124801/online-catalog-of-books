@@ -32,10 +32,10 @@ public class BookController {
     return ResponseEntity.status(OK).body(bookService.getDto(bookId));
   }
 
-//  @GetMapping
-//  public ResponseEntity<List<BookDto>> search(@RequestBody SearchRequest searchRequest) {
-//    return ResponseEntity.status(OK).body(bookService.search(searchRequest));
-//  }
+  @GetMapping
+  public ResponseEntity<List<BookDto>> search(@RequestBody SearchRequest searchRequest) {
+    return ResponseEntity.status(OK).body(bookService.search(searchRequest));
+  }
 
   @PostMapping
   public ResponseEntity<BookDto> create(@RequestBody BookDto bookDto) {

@@ -1,76 +1,80 @@
 package com.online.catalog.books.book.dto;
 
 import com.online.catalog.books.author.dto.AuthorDto;
-import com.online.catalog.books.author.model.Author;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class BookDto {
 
-    private Long id;
-    private AuthorDto author;
-    private String name;
-    private Date yearPublication;
-    private String publishingHouse;
+  private Long id;
+  private List<AuthorDto> authors;
+  private String name;
+  private Date yearPublication;
+  private String publishingHouse;
 
-    public BookDto() {
-    }
+  public BookDto() {
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public BookDto(Long id, List<AuthorDto> authors, String name, Date yearPublication, String publishingHouse) {
+    this.id = id;
+    this.authors = authors;
+    this.name = name;
+    this.yearPublication = yearPublication;
+    this.publishingHouse = publishingHouse;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public AuthorDto getAuthor() {
-        return author;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Date getYearPublication() {
+    return yearPublication;
+  }
 
-    public Date getYearPublication() {
-        return yearPublication;
-    }
+  public void setYearPublication(Date yearPublication) {
+    this.yearPublication = yearPublication;
+  }
 
-    public void setYearPublication(Date yearPublication) {
-        this.yearPublication = yearPublication;
-    }
+  public String getPublishingHouse() {
+    return publishingHouse;
+  }
 
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
+  public void setPublishingHouse(String publishingHouse) {
+    this.publishingHouse = publishingHouse;
+  }
 
-    public void setPublishingHouse(String publishingHouse) {
-        this.publishingHouse = publishingHouse;
-    }
+  public List<AuthorDto> getAuthors() {
+    return authors;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookDto bookDto = (BookDto) o;
-        return Objects.equals(author, bookDto.author) && Objects.equals(name, bookDto.name) && Objects.equals(yearPublication, bookDto.yearPublication) && Objects.equals(publishingHouse, bookDto.publishingHouse);
-    }
+  public void setAuthors(List<AuthorDto> authors) {
+    this.authors = authors;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(author, name, yearPublication, publishingHouse);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    BookDto bookDto = (BookDto) o;
+    return Objects.equals(authors, bookDto.authors) && Objects.equals(name, bookDto.name) && Objects.equals(yearPublication, bookDto.yearPublication) && Objects.equals(publishingHouse, bookDto.publishingHouse);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(authors, name, yearPublication, publishingHouse);
+  }
 }

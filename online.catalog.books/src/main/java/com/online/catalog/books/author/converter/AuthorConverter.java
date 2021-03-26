@@ -24,7 +24,14 @@ public class AuthorConverter {
   }
 
   public Author toEntity(AuthorDto authorDto) {
+    return new Author(authorDto.getId(),
+      authorDto.getFirstName(),
+      authorDto.getLastName(),
+      authorDto.getBirthday(),
+      authorDto.getSex());
+  }
 
-    return null;
+  public List<Author> toListEntity(List<AuthorDto> authorsDto) {
+    return authorsDto.stream().map(this::toEntity).collect(Collectors.toList());
   }
 }

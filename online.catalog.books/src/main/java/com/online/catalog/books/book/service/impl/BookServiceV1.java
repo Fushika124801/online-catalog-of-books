@@ -4,12 +4,14 @@ import com.online.catalog.books.author.model.Author;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
+import com.online.catalog.books.book.model.QBook;
 import com.online.catalog.books.book.repository.BookRepository;
 import com.online.catalog.books.book.search.SearchRequest;
 import com.online.catalog.books.book.service.BookService;
 import com.online.catalog.books.common.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.List;
 
 @Service
@@ -61,7 +63,8 @@ public class BookServiceV1 implements BookService {
 
   @Override
   public List<BookDto> search(SearchRequest searchRequest) {
-    return null;
+
+    return bookConverter.fromEntityList(bookRepository.findAll());
   }
 
   private Book get(Long bookId) {
