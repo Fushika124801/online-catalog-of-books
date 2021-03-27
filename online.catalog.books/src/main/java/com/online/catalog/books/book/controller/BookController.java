@@ -22,7 +22,7 @@ public class BookController {
     this.bookService = bookService;
   }
 
-  @GetMapping(produces = APPLICATION_JSON_VALUE)
+  @GetMapping
   public ResponseEntity<List<BookDto>> getAll() {
     return ResponseEntity.status(OK).body(bookService.getAllDto());
   }
@@ -32,7 +32,7 @@ public class BookController {
     return ResponseEntity.status(OK).body(bookService.getDto(bookId));
   }
 
-  @GetMapping
+  @PutMapping("/search")
   public ResponseEntity<List<BookDto>> search(@RequestBody SearchRequest searchRequest) {
     return ResponseEntity.status(OK).body(bookService.search(searchRequest));
   }

@@ -16,6 +16,11 @@ public class Book implements Serializable {
   private Long id;
 
   @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(
+          name = "book_author",
+          joinColumns = {@JoinColumn(name = "book_id")},
+          inverseJoinColumns = {@JoinColumn(name = "author_id")}
+  )
   private List<Author> authors;
 
   private String name;

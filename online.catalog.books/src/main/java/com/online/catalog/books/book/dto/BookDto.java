@@ -1,5 +1,6 @@
 package com.online.catalog.books.book.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.online.catalog.books.author.dto.AuthorDto;
 
 import java.util.Date;
@@ -9,15 +10,18 @@ import java.util.Objects;
 public class BookDto {
 
   private Long id;
-  private List<AuthorDto> authors;
   private String name;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private Date yearPublication;
+
   private String publishingHouse;
+  private List<AuthorDto> authors;
 
-  public BookDto() {
-  }
+  public BookDto() {}
 
-  public BookDto(Long id, List<AuthorDto> authors, String name, Date yearPublication, String publishingHouse) {
+  public BookDto(
+      Long id, List<AuthorDto> authors, String name, Date yearPublication, String publishingHouse) {
     this.id = id;
     this.authors = authors;
     this.name = name;
@@ -70,7 +74,10 @@ public class BookDto {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     BookDto bookDto = (BookDto) o;
-    return Objects.equals(authors, bookDto.authors) && Objects.equals(name, bookDto.name) && Objects.equals(yearPublication, bookDto.yearPublication) && Objects.equals(publishingHouse, bookDto.publishingHouse);
+    return Objects.equals(authors, bookDto.authors)
+        && Objects.equals(name, bookDto.name)
+        && Objects.equals(yearPublication, bookDto.yearPublication)
+        && Objects.equals(publishingHouse, bookDto.publishingHouse);
   }
 
   @Override
