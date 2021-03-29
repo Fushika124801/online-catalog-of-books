@@ -1,17 +1,16 @@
-package com.online.catalog.books.book.service.impl;
+package com.online.catalog.books.user.service.impl;
 
 import com.online.catalog.books.author.converter.AuthorConverter;
 import com.online.catalog.books.author.dto.AuthorDto;
-import com.online.catalog.books.author.model.Author;
 import com.online.catalog.books.author.model.enums.Sex;
-import com.online.catalog.books.author.repository.AuthorRepository;
-import com.online.catalog.books.author.service.impl.AuthorServiceV1;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
 import com.online.catalog.books.book.repository.BookRepository;
 import com.online.catalog.books.book.search.SearchSpecification;
+import com.online.catalog.books.book.service.impl.BookServiceV1;
 import com.online.catalog.books.common.exception.NotFoundException;
+import com.online.catalog.books.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,17 +23,21 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
-class BookServiceV1Test {
+class UserServiceV1Test {
 
   @InjectMocks
-  private BookServiceV1 bookServiceV1;
+  private UserServiceV1 userServiceV1;
 
   @Mock
   private BookConverter bookConverter;
   @Mock
   private BookRepository bookRepository;
+  @Mock
+  private UserRepository userRepository;
 
   private Book entity;
   private BookDto dto;

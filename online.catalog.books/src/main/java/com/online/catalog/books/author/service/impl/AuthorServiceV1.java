@@ -40,25 +40,29 @@ public class AuthorServiceV1 implements AuthorService {
 
   @Override
   public AuthorDto edit(AuthorDto authorDto, Long authorId) {
-    if (authorRepository.existsById(authorId)) {
-      Author author = authorConverter.toEntity(authorDto);
-      author.setId(authorId);
-      authorRepository.save(author);
+    checkAuthorExist(authorId);
+    Author author = authorConverter.toEntity(authorDto);
+    author.setId(authorId);
+    authorRepository.save(author);
 
-      return authorConverter.fromEntity(author);
-    } else {
-      throw new NotFoundException("Author not found!");
-    }
+    return authorConverter.fromEntity(author);
   }
 
   @Override
-  public void delete(AuthorDto authorDto) {
-    authorRepository.delete(authorConverter.toEntity(authorDto));
+  public void delete(Long authorId) {
+    authorRepository.deleteById(authorId);
   }
 
-  private Author get(Long authorId) {
+  @Override
+  public Author get(Long authorId) {
     return authorRepository
-        .findById(authorId)
-        .orElseThrow(() -> new NotFoundException("Author not found!"));
+      .findById(authorId)
+      .orElseThrow(() -> new NotFoundException("Author not found!"));
+  }
+
+  private void checkAuthorExist(Long bookId) {
+    if (!authorRepository.existsById(bookId)) {
+      throw new NotFoundException("Author not found!");
+    }
   }
 }

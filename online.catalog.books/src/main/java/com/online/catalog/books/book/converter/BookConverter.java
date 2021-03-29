@@ -26,14 +26,16 @@ public class BookConverter {
   }
 
   public BookDto fromEntity(Book entity) {
-    return new BookDto(entity.getId(),
+
+    return new BookDto(
+      entity.getId(),
       authorConverter.fromListEntity(entity.getAuthors()),
       entity.getName(),
       entity.getYearPublication(),
       entity.getPublishingHouse());
-  }
+    }
 
-  public List<BookDto> fromEntityList(List<Book> entities) {
+  public List<BookDto> fromListEntity(List<Book> entities) {
     return entities.stream().map(this::fromEntity).collect(Collectors.toList());
   }
 }

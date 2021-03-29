@@ -1,17 +1,14 @@
 package com.online.catalog.books.book.service.impl;
 
-import com.online.catalog.books.author.model.Author;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
-import com.online.catalog.books.book.model.QBook;
 import com.online.catalog.books.book.repository.BookRepository;
-import com.online.catalog.books.book.search.SearchRequest;
+import com.online.catalog.books.book.search.SearchSpecification;
 import com.online.catalog.books.book.service.BookService;
 import com.online.catalog.books.common.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.List;
 
 @Service
@@ -27,7 +24,7 @@ public class BookServiceV1 implements BookService {
 
   @Override
   public List<BookDto> getAllDto() {
-    return bookConverter.fromEntityList(bookRepository.findAll());
+    return bookConverter.fromListEntity(bookRepository.findAll());
   }
 
   @Override
@@ -45,31 +42,35 @@ public class BookServiceV1 implements BookService {
 
   @Override
   public BookDto edit(BookDto bookDto, Long bookId) {
-    if (bookRepository.existsById(bookId)) {
-      Book book = bookConverter.toEntity(bookDto);
-      book.setId(bookId);
-      bookRepository.save(book);
+    checkBookExist(bookId);
+    Book book = bookConverter.toEntity(bookDto);
+    book.setId(bookId);
+    bookRepository.save(book);
 
-      return bookConverter.fromEntity(book);
-    } else {
-      throw new NotFoundException("Author not found!");
-    }
+    return bookConverter.fromEntity(book);
   }
 
   @Override
-  public void delete(BookDto bookDto) {
-    bookRepository.delete(bookConverter.toEntity(bookDto));
+  public void delete(Long bookId) {
+    checkBookExist(bookId);
+    bookRepository.deleteById(bookId);
   }
 
   @Override
-  public List<BookDto> search(SearchRequest searchRequest) {
-
-    return bookConverter.fromEntityList(bookRepository.findAll());
+  public List<BookDto> search(SearchSpecification searchSpecification) {
+    return bookConverter.fromListEntity(bookRepository.findAll(searchSpecification));
   }
 
-  private Book get(Long bookId) {
+  @Override
+  public Book get(Long bookId) {
     return bookRepository
-        .findById(bookId)
-        .orElseThrow(() -> new NotFoundException("Book not found!"));
+      .findById(bookId)
+      .orElseThrow(() -> new NotFoundException("Book not found!"));
+  }
+
+  private void checkBookExist(Long bookId) {
+    if (!bookRepository.existsById(bookId)) {
+      throw new NotFoundException("Book not found!");
+    }
   }
 }

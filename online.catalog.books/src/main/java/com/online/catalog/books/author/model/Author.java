@@ -4,7 +4,7 @@ import com.online.catalog.books.author.model.enums.Sex;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +16,8 @@ public class Author implements Serializable {
 
   private String firstName;
   private String lastName;
-  private Date birthday;
+
+  private LocalDate birthday;
 
   @Enumerated(EnumType.STRING)
   private Sex sex;
@@ -24,7 +25,7 @@ public class Author implements Serializable {
   public Author() {
   }
 
-  public Author(Long id, String firstName, String lastName, Date birthday, Sex sex) {
+  public Author(Long id, String firstName, String lastName, LocalDate birthday, Sex sex) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -56,11 +57,11 @@ public class Author implements Serializable {
     this.lastName = lastName;
   }
 
-  public Date getBirthday() {
+  public LocalDate getBirthday() {
     return birthday;
   }
 
-  public void setBirthday(Date birthday) {
+  public void setBirthday(LocalDate birthday) {
     this.birthday = birthday;
   }
 

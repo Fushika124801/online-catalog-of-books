@@ -1,10 +1,12 @@
 package com.online.catalog.books.book.model;
 
 import com.online.catalog.books.author.model.Author;
+import com.online.catalog.books.book.converter.YearConverter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Year;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,22 +17,30 @@ public class Book implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(cascade = CascadeType.DETACH)
   @JoinTable(
-          name = "book_author",
-          joinColumns = {@JoinColumn(name = "book_id")},
-          inverseJoinColumns = {@JoinColumn(name = "author_id")}
+    name = "book_author",
+    joinColumns = {@JoinColumn(name = "book_id")},
+    inverseJoinColumns = {@JoinColumn(name = "author_id")}
   )
+  @Column(nullable = false)
+  @NotNull
   private List<Author> authors;
 
   private String name;
-  private Date yearPublication;
+
+  @Column(columnDefinition = "smallint")
+  @Convert(
+    converter = YearConverter.class
+  )
+  private Year yearPublication;
+
   private String publishingHouse;
 
   public Book() {
   }
 
-  public Book(Long id, List<Author> authors, String name, Date yearPublication, String publishingHouse) {
+  public Book(Long id, List<Author> authors, String name, Year yearPublication, String publishingHouse) {
     this.id = id;
     this.authors = authors;
     this.name = name;
@@ -54,11 +64,11 @@ public class Book implements Serializable {
     this.name = name;
   }
 
-  public Date getYearPublication() {
+  public Year getYearPublication() {
     return yearPublication;
   }
 
-  public void setYearPublication(Date yearPublication) {
+  public void setYearPublication(Year yearPublication) {
     this.yearPublication = yearPublication;
   }
 
@@ -91,7 +101,10 @@ public class Book implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Book book = (Book) o;
-    return Objects.equals(authors, book.authors) && Objects.equals(name, book.name) && Objects.equals(yearPublication, book.yearPublication) && Objects.equals(publishingHouse, book.publishingHouse);
+    return Objects.equals(authors, book.authors)
+      && Objects.equals(name, book.name)
+      && Objects.equals(yearPublication, book.yearPublication)
+      && Objects.equals(publishingHouse, book.publishingHouse);
   }
 
   @Override

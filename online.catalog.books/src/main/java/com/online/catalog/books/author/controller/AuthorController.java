@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/v1/authors")
@@ -40,9 +39,9 @@ public class AuthorController {
     return ResponseEntity.status(OK).body(authorService.edit(authorDto, authorId));
   }
 
-  @DeleteMapping
-  public ResponseEntity<AuthorDto> delete(@RequestBody AuthorDto authorDto) {
-    authorService.delete(authorDto);
-    return ResponseEntity.status(OK).build();
+  @DeleteMapping("/{authorId}")
+  public ResponseEntity<AuthorDto> delete(@PathVariable Long authorId) {
+    authorService.delete(authorId);
+    return ResponseEntity.status(NO_CONTENT).build();
   }
 }

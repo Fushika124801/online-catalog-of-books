@@ -3,6 +3,7 @@ package com.online.catalog.books.book.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.online.catalog.books.author.dto.AuthorDto;
 
+import java.time.Year;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -11,17 +12,14 @@ public class BookDto {
 
   private Long id;
   private String name;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-  private Date yearPublication;
-
+  private Year yearPublication;
   private String publishingHouse;
   private List<AuthorDto> authors;
 
   public BookDto() {}
 
   public BookDto(
-      Long id, List<AuthorDto> authors, String name, Date yearPublication, String publishingHouse) {
+      Long id, List<AuthorDto> authors, String name, Year yearPublication, String publishingHouse) {
     this.id = id;
     this.authors = authors;
     this.name = name;
@@ -45,11 +43,11 @@ public class BookDto {
     this.name = name;
   }
 
-  public Date getYearPublication() {
+  public Year getYearPublication() {
     return yearPublication;
   }
 
-  public void setYearPublication(Date yearPublication) {
+  public void setYearPublication(Year yearPublication) {
     this.yearPublication = yearPublication;
   }
 
