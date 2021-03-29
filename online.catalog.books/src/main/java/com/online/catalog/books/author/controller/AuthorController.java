@@ -35,7 +35,8 @@ public class AuthorController {
   }
 
   @PutMapping("/{authorId}")
-  public ResponseEntity<AuthorDto> edit(@RequestBody AuthorDto authorDto, @PathVariable Long authorId) {
+  public ResponseEntity<AuthorDto> edit(
+      @RequestBody AuthorDto authorDto, @PathVariable Long authorId) {
     return ResponseEntity.status(OK).body(authorService.edit(authorDto, authorId));
   }
 

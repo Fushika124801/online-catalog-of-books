@@ -24,11 +24,12 @@ public class AuthorConverter {
   }
 
   public Author toEntity(AuthorDto authorDto) {
-    return new Author(authorDto.getId(),
-      authorDto.getFirstName(),
-      authorDto.getLastName(),
-      authorDto.getBirthday(),
-      authorDto.getSex());
+    return new Author(
+        authorDto.getId(),
+        authorDto.getFirstName(),
+        authorDto.getLastName(),
+        authorDto.getBirthday(),
+        authorDto.getSex());
   }
 
   public List<Author> toListEntity(List<AuthorDto> authorsDto) {

@@ -15,6 +15,7 @@ INSERT INTO book_author (book_id,author_id) VALUES
 (2,3),
 (3,3);
 
-INSERT INTO user (username, password) VALUES
-('super','admin'),
-('puper','1111');
+INSERT INTO user (username, password, role) VALUES
+('super','$2y$04$IZTuX3DvwWuq9T6QUuKcY.nfMnrjAPPIp7EM08CDfki7msT1Biciu','USER'),
+('puper','$2y$04$IZTuX3DvwWuq9T6QUuKcY.nfMnrjAPPIp7EM08CDfki7msT1Biciu','USER');
+

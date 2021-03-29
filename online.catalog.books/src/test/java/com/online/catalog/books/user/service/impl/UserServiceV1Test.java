@@ -6,10 +6,8 @@ import com.online.catalog.books.author.model.enums.Sex;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
-import com.online.catalog.books.book.repository.BookRepository;
-import com.online.catalog.books.book.search.SearchSpecification;
-import com.online.catalog.books.book.service.impl.BookServiceV1;
-import com.online.catalog.books.common.exception.NotFoundException;
+import com.online.catalog.books.book.service.BookService;
+import com.online.catalog.books.user.model.User;
 import com.online.catalog.books.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,161 +21,102 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 class UserServiceV1Test {
 
-  @InjectMocks
-  private UserServiceV1 userServiceV1;
+  @InjectMocks private UserServiceV1 userServiceV1;
 
-  @Mock
-  private BookConverter bookConverter;
-  @Mock
-  private BookRepository bookRepository;
-  @Mock
-  private UserRepository userRepository;
+  @Mock private BookConverter bookConverter;
+  @Mock private BookService bookService;
+  @Mock private UserRepository userRepository;
 
-  private Book entity;
-  private BookDto dto;
+  private User user;
+  private List<Book> books;
+  private List<BookDto> bookDtos;
+  private BookDto bookDto;
+  private Book bookEntity;
 
   @BeforeEach
   public void init() {
     MockitoAnnotations.openMocks(this);
+
     AuthorConverter authorConverter = new AuthorConverter();
     AuthorDto authorDto = new AuthorDto(1L, "oleg", "bubu", LocalDate.MAX, Sex.MALE);
-    List<AuthorDto> authorDtos = new ArrayList<AuthorDto>() {{
-      add(authorDto);
-      add(authorDto);
-    }};
-    dto = new BookDto(
-      1L, authorDtos, "book of devil", Year.of(666), "Hell");
-    entity = new Book(
-      1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
+    List<AuthorDto> authorDtos =
+        new ArrayList<AuthorDto>() {
+          {
+            add(authorDto);
+            add(authorDto);
+          }
+        };
+
+    bookDto = new BookDto(1L, authorDtos, "book of devil", Year.of(666), "Hell");
+    bookEntity =
+        new Book(
+            1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
+    books =
+        new ArrayList<Book>() {
+          {
+            add(bookEntity);
+            add(bookEntity);
+          }
+        };
+    bookDtos =
+        new ArrayList<BookDto>() {
+          {
+            add(bookDto);
+            add(bookDto);
+          }
+        };
+
+    user = new User();
+    user.setBooks(books);
   }
 
   @Test
-  void testGetAllDto() {
-    List<Book> entities = new ArrayList<Book>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<BookDto> expected = new ArrayList<BookDto>() {{
-      add(dto);
-      add(dto);
-    }};
+  void testGetBookList() {
+    when(bookConverter.fromListEntity(books)).thenReturn(bookDtos);
+    when(userRepository.findByUsername(any())).thenReturn(java.util.Optional.of(user));
 
-    when(bookRepository.findAll()).thenReturn(entities);
-    when(bookConverter.fromListEntity(entities)).thenReturn(expected);
+    List<BookDto> actual = userServiceV1.getBookList();
 
-    List<BookDto> actual = bookServiceV1.getAllDto();
-
-    Assertions.assertEquals(expected, actual);
-    verify(bookRepository, times(1)).findAll();
-    verify(bookConverter, times(1)).fromListEntity(entities);
+    Assertions.assertEquals(bookDtos, actual);
+    verify(bookConverter, times(1)).fromListEntity(books);
+    verify(userRepository, times(1)).findByUsername(any());
   }
 
   @Test
-  void testGetDto() {
+  void testAddBook() {
     Long someId = 1L;
-    when(bookRepository.findById(someId)).thenReturn(java.util.Optional.ofNullable(entity));
-    when(bookConverter.fromEntity(entity)).thenReturn(dto);
+    when(bookConverter.fromListEntity(books)).thenReturn(bookDtos);
+    when(userRepository.findByUsername(any())).thenReturn(java.util.Optional.of(user));
+    when(bookService.get(someId)).thenReturn(bookEntity);
+    when(userRepository.save(user)).thenReturn(user);
 
-    BookDto actual = bookServiceV1.getDto(someId);
+    List<BookDto> actual = userServiceV1.addBook(someId);
+    bookDtos.add(bookDto);
 
-    Assertions.assertEquals(dto, actual);
-    verify(bookRepository, times(1)).findById(someId);
-    verify(bookConverter, times(1)).fromEntity(entity);
+    Assertions.assertEquals(bookDtos, actual);
+    verify(bookConverter, times(1)).fromListEntity(books);
+    verify(userRepository, times(1)).findByUsername(any());
+    verify(userRepository, times(1)).save(user);
+    verify(bookService, times(1)).get(someId);
   }
 
   @Test
-  void testGetDtoWhenNotAuthorWithSpecifiedId() {
-    Long someId = 3L;
-    when(bookRepository.findById(someId)).thenReturn(java.util.Optional.empty());
-
-    Assertions.assertThrows(NotFoundException.class, () -> bookServiceV1.getDto(someId));
-    verify(bookRepository, times(1)).findById(someId);
-  }
-
-  @Test
-  void testCreate() {
-    when(bookRepository.save(entity)).thenReturn(entity);
-    when(bookConverter.toEntity(dto)).thenReturn(entity);
-    when(bookConverter.fromEntity(entity)).thenReturn(dto);
-
-    BookDto actual = bookServiceV1.create(dto);
-
-    Assertions.assertEquals(dto, actual);
-    verify(bookRepository, times(1)).save(entity);
-    verify(bookConverter, times(1)).fromEntity(entity);
-    verify(bookConverter, times(1)).toEntity(dto);
-  }
-
-  @Test
-  void testEdit() {
+  void testRemoveBook() {
     Long someId = 1L;
-    when(bookRepository.save(entity)).thenReturn(entity);
-    when(bookConverter.toEntity(dto)).thenReturn(entity);
-    when(bookConverter.fromEntity(entity)).thenReturn(dto);
-    when(bookRepository.existsById(someId)).thenReturn(true);
+    when(bookConverter.fromListEntity(books)).thenReturn(bookDtos);
+    when(userRepository.findByUsername(any())).thenReturn(java.util.Optional.of(user));
+    when(userRepository.save(user)).thenReturn(user);
 
-    BookDto actual = bookServiceV1.edit(dto, someId);
+    List<BookDto> actual = userServiceV1.removeBook(someId);
+    bookDtos.remove(bookDto);
 
-    Assertions.assertEquals(dto, actual);
-    verify(bookRepository, times(1)).existsById(someId);
-    verify(bookRepository, times(1)).save(entity);
-    verify(bookConverter, times(1)).fromEntity(entity);
-    verify(bookConverter, times(1)).toEntity(dto);
-  }
-
-  @Test
-  void testEditWhenNotAuthorWithSpecifiedId() {
-    Long someId = 1L;
-    when(bookRepository.existsById(someId)).thenReturn(false);
-
-    Assertions.assertThrows(NotFoundException.class, () -> bookServiceV1.edit(dto, someId));
-    verify(bookRepository, times(1)).existsById(someId);
-  }
-
-  @Test
-  void testGet() {
-    Long someId = 1L;
-    when(bookRepository.findById(someId)).thenReturn(java.util.Optional.ofNullable(entity));
-
-    Book actual = bookServiceV1.get(someId);
-
-    Assertions.assertEquals(entity, actual);
-    verify(bookRepository, times(1)).findById(someId);
-  }
-
-  @Test
-  void testGetWhenNotAuthorWithSpecifiedId() {
-    Long someId = 3L;
-    when(bookRepository.findById(someId)).thenReturn(java.util.Optional.empty());
-
-    Assertions.assertThrows(NotFoundException.class, () -> bookServiceV1.get(someId));
-    verify(bookRepository, times(1)).findById(someId);
-  }
-
-  @Test
-  void testSearch(){
-    List<Book> entities = new ArrayList<Book>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<BookDto> expected = new ArrayList<BookDto>() {{
-      add(dto);
-      add(dto);
-    }};
-    SearchSpecification searchSpecification = new SearchSpecification();
-    when(bookRepository.findAll(searchSpecification)).thenReturn(entities);
-    when(bookConverter.fromListEntity(entities)).thenReturn(expected);
-
-    List<BookDto> actual = bookServiceV1.search(searchSpecification);
-
-    Assertions.assertEquals(expected, actual);
-    verify(bookRepository, times(1)).findAll(searchSpecification);
-    verify(bookConverter, times(1)).fromListEntity(entities);
+    Assertions.assertEquals(bookDtos, actual);
+    verify(bookConverter, times(1)).fromListEntity(books);
+    verify(userRepository, times(1)).findByUsername(any());
+    verify(userRepository, times(1)).save(user);
   }
 }

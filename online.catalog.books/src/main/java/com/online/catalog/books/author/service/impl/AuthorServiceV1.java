@@ -56,8 +56,8 @@ public class AuthorServiceV1 implements AuthorService {
   @Override
   public Author get(Long authorId) {
     return authorRepository
-      .findById(authorId)
-      .orElseThrow(() -> new NotFoundException("Author not found!"));
+        .findById(authorId)
+        .orElseThrow(() -> new NotFoundException("Author not found!"));
   }
 
   private void checkAuthorExist(Long bookId) {

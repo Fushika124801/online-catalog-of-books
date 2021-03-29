@@ -2,10 +2,7 @@ package com.online.catalog.books.book.service.impl;
 
 import com.online.catalog.books.author.converter.AuthorConverter;
 import com.online.catalog.books.author.dto.AuthorDto;
-import com.online.catalog.books.author.model.Author;
 import com.online.catalog.books.author.model.enums.Sex;
-import com.online.catalog.books.author.repository.AuthorRepository;
-import com.online.catalog.books.author.service.impl.AuthorServiceV1;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
@@ -28,13 +25,10 @@ import static org.mockito.Mockito.*;
 
 class BookServiceV1Test {
 
-  @InjectMocks
-  private BookServiceV1 bookServiceV1;
+  @InjectMocks private BookServiceV1 bookServiceV1;
 
-  @Mock
-  private BookConverter bookConverter;
-  @Mock
-  private BookRepository bookRepository;
+  @Mock private BookConverter bookConverter;
+  @Mock private BookRepository bookRepository;
 
   private Book entity;
   private BookDto dto;
@@ -44,26 +38,35 @@ class BookServiceV1Test {
     MockitoAnnotations.openMocks(this);
     AuthorConverter authorConverter = new AuthorConverter();
     AuthorDto authorDto = new AuthorDto(1L, "oleg", "bubu", LocalDate.MAX, Sex.MALE);
-    List<AuthorDto> authorDtos = new ArrayList<AuthorDto>() {{
-      add(authorDto);
-      add(authorDto);
-    }};
-    dto = new BookDto(
-      1L, authorDtos, "book of devil", Year.of(666), "Hell");
-    entity = new Book(
-      1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
+    List<AuthorDto> authorDtos =
+        new ArrayList<AuthorDto>() {
+          {
+            add(authorDto);
+            add(authorDto);
+          }
+        };
+    dto = new BookDto(1L, authorDtos, "book of devil", Year.of(666), "Hell");
+    entity =
+        new Book(
+            1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
   }
 
   @Test
   void testGetAllDto() {
-    List<Book> entities = new ArrayList<Book>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<BookDto> expected = new ArrayList<BookDto>() {{
-      add(dto);
-      add(dto);
-    }};
+    List<Book> entities =
+        new ArrayList<Book>() {
+          {
+            add(entity);
+            add(entity);
+          }
+        };
+    List<BookDto> expected =
+        new ArrayList<BookDto>() {
+          {
+            add(dto);
+            add(dto);
+          }
+        };
 
     when(bookRepository.findAll()).thenReturn(entities);
     when(bookConverter.fromListEntity(entities)).thenReturn(expected);
@@ -158,15 +161,21 @@ class BookServiceV1Test {
   }
 
   @Test
-  void testSearch(){
-    List<Book> entities = new ArrayList<Book>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<BookDto> expected = new ArrayList<BookDto>() {{
-      add(dto);
-      add(dto);
-    }};
+  void testSearch() {
+    List<Book> entities =
+        new ArrayList<Book>() {
+          {
+            add(entity);
+            add(entity);
+          }
+        };
+    List<BookDto> expected =
+        new ArrayList<BookDto>() {
+          {
+            add(dto);
+            add(dto);
+          }
+        };
     SearchSpecification searchSpecification = new SearchSpecification();
     when(bookRepository.findAll(searchSpecification)).thenReturn(entities);
     when(bookConverter.fromListEntity(entities)).thenReturn(expected);

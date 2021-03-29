@@ -1,10 +1,8 @@
 package com.online.catalog.books.book.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.online.catalog.books.author.dto.AuthorDto;
 
 import java.time.Year;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 

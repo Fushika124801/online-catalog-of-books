@@ -22,8 +22,7 @@ public class Author implements Serializable {
   @Enumerated(EnumType.STRING)
   private Sex sex;
 
-  public Author() {
-  }
+  public Author() {}
 
   public Author(Long id, String firstName, String lastName, LocalDate birthday, Sex sex) {
     this.id = id;
@@ -79,9 +78,9 @@ public class Author implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     Author author = (Author) o;
     return Objects.equals(firstName, author.firstName)
-      && Objects.equals(lastName, author.lastName)
-      && Objects.equals(birthday, author.birthday)
-      && sex == author.sex;
+        && Objects.equals(lastName, author.lastName)
+        && Objects.equals(birthday, author.birthday)
+        && sex == author.sex;
   }
 
   @Override

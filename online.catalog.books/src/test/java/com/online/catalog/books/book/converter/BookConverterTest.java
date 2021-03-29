@@ -24,14 +24,17 @@ class BookConverterTest {
   @BeforeEach
   public void setUp() {
     AuthorDto authorDto = new AuthorDto(1L, "oleg", "bubu", LocalDate.MAX, Sex.MALE);
-    List<AuthorDto> authorDtos = new ArrayList<AuthorDto>() {{
-      add(authorDto);
-      add(authorDto);
-    }};
-    dto = new BookDto(
-      1L, authorDtos, "book of devil", Year.of(666), "Hell");
-    entity = new Book(
-      1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
+    List<AuthorDto> authorDtos =
+        new ArrayList<AuthorDto>() {
+          {
+            add(authorDto);
+            add(authorDto);
+          }
+        };
+    dto = new BookDto(1L, authorDtos, "book of devil", Year.of(666), "Hell");
+    entity =
+        new Book(
+            1L, authorConverter.toListEntity(authorDtos), "book of devil", Year.of(666), "Hell");
   }
 
   @Test
@@ -48,18 +51,23 @@ class BookConverterTest {
 
   @Test
   void testFromEntityList() {
-    List<Book> entities = new ArrayList<Book>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<BookDto> expected = new ArrayList<BookDto>() {{
-      add(dto);
-      add(dto);
-    }};
+    List<Book> entities =
+        new ArrayList<Book>() {
+          {
+            add(entity);
+            add(entity);
+          }
+        };
+    List<BookDto> expected =
+        new ArrayList<BookDto>() {
+          {
+            add(dto);
+            add(dto);
+          }
+        };
 
     List<BookDto> actual = bookConverter.fromListEntity(entities);
 
     Assertions.assertEquals(expected, actual);
   }
-
 }

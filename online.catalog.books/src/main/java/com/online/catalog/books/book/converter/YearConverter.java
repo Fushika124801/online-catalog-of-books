@@ -6,8 +6,7 @@ import java.time.Year;
 public class YearConverter implements AttributeConverter<Year, Short> {
 
   @Override
-  public Short convertToDatabaseColumn(
-    Year attribute) {
+  public Short convertToDatabaseColumn(Year attribute) {
     if (attribute != null) {
       return (short) attribute.getValue();
     }
@@ -15,8 +14,7 @@ public class YearConverter implements AttributeConverter<Year, Short> {
   }
 
   @Override
-  public Year convertToEntityAttribute(
-    Short dbData) {
+  public Year convertToEntityAttribute(Short dbData) {
     if (dbData != null) {
       return Year.of(dbData);
     }

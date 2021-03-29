@@ -33,26 +33,31 @@ public class SearchSpecification implements Specification<Book> {
       predicates.add(builder.like(builder.upper(book.get("name")), "%" + name.toUpperCase() + "%"));
     }
     if (publishingHouse != null) {
-      predicates.add(builder.like(
-        builder.upper(book.get("publishingHouse")), "%" + publishingHouse.toUpperCase() + "%"));
+      predicates.add(
+          builder.like(
+              builder.upper(book.get("publishingHouse")),
+              "%" + publishingHouse.toUpperCase() + "%"));
     }
     if (yearPublication != null) {
       predicates.add(builder.equal(book.get("yearPublication"), yearPublication));
     }
     if (firstNameOfAuthor != null) {
-      predicates.add(builder.like(
-        builder.upper(authors.get("firstName")), firstNameOfAuthor.toUpperCase() + "%"));
+      predicates.add(
+          builder.like(
+              builder.upper(authors.get("firstName")), firstNameOfAuthor.toUpperCase() + "%"));
     }
     if (lastNameOfAuthor != null) {
-      predicates.add(builder.like(
-        builder.upper(authors.get("lastName")), lastNameOfAuthor.toUpperCase() + "%"));
+      predicates.add(
+          builder.like(
+              builder.upper(authors.get("lastName")), lastNameOfAuthor.toUpperCase() + "%"));
     }
     if (sexOfAuthor != null) {
       predicates.add(builder.equal(authors.get("sex"), sexOfAuthor));
     }
     if (birthdayOfAuthor != null) {
-      //When one book has two authors, to correctly search by birthday, add 1
-      predicates.add(builder.and(authors.get("birthday").in(birthdayOfAuthor, birthdayOfAuthor.plusDays(1))));
+      // When one book has two authors, to correctly search by birthday, add 1
+      predicates.add(
+          builder.and(authors.get("birthday").in(birthdayOfAuthor, birthdayOfAuthor.plusDays(1))));
     }
 
     query.distinct(true);

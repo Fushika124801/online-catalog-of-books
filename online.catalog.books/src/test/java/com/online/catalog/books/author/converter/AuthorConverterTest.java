@@ -23,14 +23,20 @@ class AuthorConverterTest {
   public void setUp() {
     dto = new AuthorDto(1L, "oleg", "bubu", LocalDate.MAX, Sex.MALE);
     entity = new Author(1L, "oleg", "bubu", LocalDate.MAX, Sex.MALE);
-    entities = new ArrayList<Author>(){{
-      add(entity);
-      add(entity);
-    }};
-     dtos = new ArrayList<AuthorDto>(){{
-      add(dto);
-      add(dto);
-    }};
+    entities =
+        new ArrayList<Author>() {
+          {
+            add(entity);
+            add(entity);
+          }
+        };
+    dtos =
+        new ArrayList<AuthorDto>() {
+          {
+            add(dto);
+            add(dto);
+          }
+        };
   }
 
   @Test

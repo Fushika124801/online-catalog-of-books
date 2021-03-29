@@ -18,22 +18,23 @@ public class BookConverter {
   }
 
   public Book toEntity(BookDto bookDto) {
-    return new Book(bookDto.getId(),
-      authorConverter.toListEntity(bookDto.getAuthors()),
-      bookDto.getName(),
-      bookDto.getYearPublication(),
-      bookDto.getPublishingHouse());
+    return new Book(
+        bookDto.getId(),
+        authorConverter.toListEntity(bookDto.getAuthors()),
+        bookDto.getName(),
+        bookDto.getYearPublication(),
+        bookDto.getPublishingHouse());
   }
 
   public BookDto fromEntity(Book entity) {
 
     return new BookDto(
-      entity.getId(),
-      authorConverter.fromListEntity(entity.getAuthors()),
-      entity.getName(),
-      entity.getYearPublication(),
-      entity.getPublishingHouse());
-    }
+        entity.getId(),
+        authorConverter.fromListEntity(entity.getAuthors()),
+        entity.getName(),
+        entity.getYearPublication(),
+        entity.getPublishingHouse());
+  }
 
   public List<BookDto> fromListEntity(List<Book> entities) {
     return entities.stream().map(this::fromEntity).collect(Collectors.toList());

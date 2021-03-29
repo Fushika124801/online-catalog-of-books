@@ -42,8 +42,7 @@ public class BookController {
   }
 
   @PutMapping("/{bookId}")
-  public ResponseEntity<BookDto> edit(
-    @RequestBody BookDto bookDto, @PathVariable Long bookId) {
+  public ResponseEntity<BookDto> edit(@RequestBody BookDto bookDto, @PathVariable Long bookId) {
     return ResponseEntity.status(OK).body(bookService.edit(bookDto, bookId));
   }
 

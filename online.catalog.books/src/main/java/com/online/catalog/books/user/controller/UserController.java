@@ -1,6 +1,5 @@
 package com.online.catalog.books.user.controller;
 
-
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.user.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class UserController {
     return ResponseEntity.status(OK).body(userService.addBook(bookId));
   }
 
-  @DeleteMapping("/bookList/remove/{bookId}")
+  @PutMapping("/bookList/remove/{bookId}")
   public ResponseEntity<List<BookDto>> deleteBook(@PathVariable Long bookId) {
     return ResponseEntity.status(OK).body(userService.removeBook(bookId));
   }

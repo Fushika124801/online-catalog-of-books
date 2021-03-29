@@ -17,12 +17,11 @@ public class Book implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToMany(cascade = CascadeType.DETACH)
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
   @JoinTable(
-    name = "book_author",
-    joinColumns = {@JoinColumn(name = "book_id")},
-    inverseJoinColumns = {@JoinColumn(name = "author_id")}
-  )
+      name = "book_author",
+      joinColumns = {@JoinColumn(name = "book_id")},
+      inverseJoinColumns = {@JoinColumn(name = "author_id")})
   @Column(nullable = false)
   @NotNull
   private List<Author> authors;
@@ -30,17 +29,15 @@ public class Book implements Serializable {
   private String name;
 
   @Column(columnDefinition = "smallint")
-  @Convert(
-    converter = YearConverter.class
-  )
+  @Convert(converter = YearConverter.class)
   private Year yearPublication;
 
   private String publishingHouse;
 
-  public Book() {
-  }
+  public Book() {}
 
-  public Book(Long id, List<Author> authors, String name, Year yearPublication, String publishingHouse) {
+  public Book(
+      Long id, List<Author> authors, String name, Year yearPublication, String publishingHouse) {
     this.id = id;
     this.authors = authors;
     this.name = name;
@@ -102,9 +99,9 @@ public class Book implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     Book book = (Book) o;
     return Objects.equals(authors, book.authors)
-      && Objects.equals(name, book.name)
-      && Objects.equals(yearPublication, book.yearPublication)
-      && Objects.equals(publishingHouse, book.publishingHouse);
+        && Objects.equals(name, book.name)
+        && Objects.equals(yearPublication, book.yearPublication)
+        && Objects.equals(publishingHouse, book.publishingHouse);
   }
 
   @Override

@@ -64,8 +64,8 @@ public class BookServiceV1 implements BookService {
   @Override
   public Book get(Long bookId) {
     return bookRepository
-      .findById(bookId)
-      .orElseThrow(() -> new NotFoundException("Book not found!"));
+        .findById(bookId)
+        .orElseThrow(() -> new NotFoundException("Book not found!"));
   }
 
   private void checkBookExist(Long bookId) {

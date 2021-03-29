@@ -17,8 +17,7 @@ public class AuthorDto implements Serializable {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private LocalDate birthday;
 
-  public AuthorDto() {
-  }
+  public AuthorDto() {}
 
   public AuthorDto(Long id, String firstName, String lastName, LocalDate birthday, Sex sex) {
     this.id = id;
@@ -74,9 +73,9 @@ public class AuthorDto implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     AuthorDto authorDto = (AuthorDto) o;
     return Objects.equals(firstName, authorDto.firstName)
-      && Objects.equals(lastName, authorDto.lastName)
-      && Objects.equals(birthday, authorDto.birthday)
-      && sex == authorDto.sex;
+        && Objects.equals(lastName, authorDto.lastName)
+        && Objects.equals(birthday, authorDto.birthday)
+        && sex == authorDto.sex;
   }
 
   @Override

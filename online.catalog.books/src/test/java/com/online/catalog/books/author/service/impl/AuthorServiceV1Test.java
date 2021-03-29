@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,13 +21,10 @@ import static org.mockito.Mockito.*;
 
 class AuthorServiceV1Test {
 
-  @InjectMocks
-  private AuthorServiceV1 authorServiceV1;
+  @InjectMocks private AuthorServiceV1 authorServiceV1;
 
-  @Mock
-  private AuthorConverter authorConverter;
-  @Mock
-  private AuthorRepository authorRepository;
+  @Mock private AuthorConverter authorConverter;
+  @Mock private AuthorRepository authorRepository;
 
   private Author entity;
   private AuthorDto dto;
@@ -42,14 +38,20 @@ class AuthorServiceV1Test {
 
   @Test
   void testGetAllDto() {
-    List<Author> entities = new ArrayList<Author>() {{
-      add(entity);
-      add(entity);
-    }};
-    List<AuthorDto> expected = new ArrayList<AuthorDto>() {{
-      add(dto);
-      add(dto);
-    }};
+    List<Author> entities =
+        new ArrayList<Author>() {
+          {
+            add(entity);
+            add(entity);
+          }
+        };
+    List<AuthorDto> expected =
+        new ArrayList<AuthorDto>() {
+          {
+            add(dto);
+            add(dto);
+          }
+        };
     when(authorRepository.findAll()).thenReturn(entities);
     when(authorConverter.fromListEntity(entities)).thenReturn(expected);
 
