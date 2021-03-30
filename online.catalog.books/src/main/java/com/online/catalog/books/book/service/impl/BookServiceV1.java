@@ -7,6 +7,7 @@ import com.online.catalog.books.book.repository.BookRepository;
 import com.online.catalog.books.book.search.SearchSpecification;
 import com.online.catalog.books.book.service.BookService;
 import com.online.catalog.books.common.exception.NotFoundException;
+import com.online.catalog.books.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,12 @@ public class BookServiceV1 implements BookService {
 
   private final BookRepository bookRepository;
   private final BookConverter bookConverter;
+  private final UserService userService;
 
-  public BookServiceV1(BookRepository bookRepository, BookConverter bookConverter) {
+  public BookServiceV1(BookRepository bookRepository, BookConverter bookConverter, UserService userService) {
     this.bookRepository = bookRepository;
     this.bookConverter = bookConverter;
+    this.userService = userService;
   }
 
   @Override
@@ -53,6 +56,7 @@ public class BookServiceV1 implements BookService {
   @Override
   public void delete(Long bookId) {
     checkBookExist(bookId);
+    userService.removeBook(bookId);
     bookRepository.deleteById(bookId);
   }
 
@@ -64,8 +68,8 @@ public class BookServiceV1 implements BookService {
   @Override
   public Book get(Long bookId) {
     return bookRepository
-        .findById(bookId)
-        .orElseThrow(() -> new NotFoundException("Book not found!"));
+      .findById(bookId)
+      .orElseThrow(() -> new NotFoundException("Book not found!"));
   }
 
   private void checkBookExist(Long bookId) {

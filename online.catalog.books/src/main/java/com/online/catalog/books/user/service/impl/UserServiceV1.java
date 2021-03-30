@@ -3,7 +3,7 @@ package com.online.catalog.books.user.service.impl;
 import com.online.catalog.books.book.converter.BookConverter;
 import com.online.catalog.books.book.dto.BookDto;
 import com.online.catalog.books.book.model.Book;
-import com.online.catalog.books.book.service.BookService;
+import com.online.catalog.books.book.repository.BookRepository;
 import com.online.catalog.books.common.exception.NotFoundException;
 import com.online.catalog.books.user.model.User;
 import com.online.catalog.books.user.repository.UserRepository;
@@ -17,13 +17,13 @@ import java.util.List;
 public class UserServiceV1 implements UserService {
 
   private final UserRepository userRepository;
-  private final BookService bookService;
+  private final BookRepository bookRepository;
   private final BookConverter bookConverter;
 
   public UserServiceV1(
-      UserRepository userRepository, BookService bookService, BookConverter bookConverter) {
+    UserRepository userRepository, BookRepository bookRepository, BookConverter bookConverter) {
     this.userRepository = userRepository;
-    this.bookService = bookService;
+    this.bookRepository = bookRepository;
     this.bookConverter = bookConverter;
   }
 
@@ -37,7 +37,8 @@ public class UserServiceV1 implements UserService {
   @Override
   public List<BookDto> addBook(Long bookId) {
     User user = getCurrentUser();
-    Book book = bookService.get(bookId);
+    Book book = bookRepository.findById(bookId)
+      .orElseThrow(() -> new NotFoundException("Book not found!"));
 
     if (!user.getBooks().contains(book)) {
       user.getBooks().add(book);

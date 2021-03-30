@@ -9,6 +9,7 @@ import com.online.catalog.books.book.model.Book;
 import com.online.catalog.books.book.repository.BookRepository;
 import com.online.catalog.books.book.search.SearchSpecification;
 import com.online.catalog.books.common.exception.NotFoundException;
+import com.online.catalog.books.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

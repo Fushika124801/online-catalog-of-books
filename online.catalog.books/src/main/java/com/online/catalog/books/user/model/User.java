@@ -20,7 +20,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "user_book",
       joinColumns = {@JoinColumn(name = "user_id")},

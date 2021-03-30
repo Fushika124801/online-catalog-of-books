@@ -17,7 +17,7 @@ public class Book implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+  @ManyToMany
   @JoinTable(
       name = "book_author",
       joinColumns = {@JoinColumn(name = "book_id")},
@@ -83,14 +83,6 @@ public class Book implements Serializable {
 
   public void setPublishingHouse(String publishingHouse) {
     this.publishingHouse = publishingHouse;
-  }
-
-  public List<Author> getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(List<Author> authors) {
-    this.authors = authors;
   }
 
   @Override

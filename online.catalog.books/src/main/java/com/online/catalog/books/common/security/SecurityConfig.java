@@ -24,7 +24,8 @@ import java.util.Collections;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class
+SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private static final String COOKIES = "JSESSIONID";
   private static final int MAXIMUM_SESSIONS_COUNT = 1;

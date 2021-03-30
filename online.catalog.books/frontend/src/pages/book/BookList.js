@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import BockActionButton from "../components/BookActionButton";
-import authHeader from "../context/authHeader";
+import BockActionButton from "../../components/BookActionButton";
+import authHeader from "../../context/authHeader";
 
 export class BookList extends Component{
     constructor(props){
@@ -48,7 +48,6 @@ export class BookList extends Component{
     }
 
     getBooks = () => {
-        console.log(authHeader())
         if(this.state.isBookListEnabled){
             this.getBookList();
         } else{
@@ -82,10 +81,10 @@ export class BookList extends Component{
                 </div>
                 <div className="row pb-5">
                 <div className="col">
-                    <button className={this.state.isBookListEnabled ? "btn btn-outline-primary btn-lg pg" : "btn btn-primary btn-lg pg"} onClick={this.setBookListDisabled}>All books</button>
+                    <button className={this.state.isBookListEnabled ? "btn btn-outline-primary btn-lg pg btn-block" : "btn btn-primary btn-lg pg btn-block"} onClick={this.setBookListDisabled}>All books</button>
                 </div>
                 <div className="col">
-                    <button className={!this.state.isBookListEnabled ? "btn btn-outline-primary btn-lg pg" : "btn btn-primary btn-lg pg"} onClick={this.setBookListEnabled}>My books</button>
+                    <button className={!this.state.isBookListEnabled ? "btn btn-outline-primary btn-lg pg btn-block" : "btn btn-primary btn-lg pg btn-block"} onClick={this.setBookListEnabled}>My books</button>
                 </div>
                 </div>
             <table className="table table-bordered">
@@ -110,7 +109,7 @@ export class BookList extends Component{
                             <ul>{book.authors.map((author,index) => <li key={index}>{author.firstName} {author.lastName}</li>)}
                             </ul>
                         </th>
-                        <th><BockActionButton getBooksInButton={this.getBooks} bookListAction={this.state.isBookListEnabled ? "remove" : "add"} book={book}/></th>
+                        <th><BockActionButton setBookForEdit={this.props.setBookForEdit} bookListAction={this.state.isBookListEnabled ? "remove" : "add"} book={book}/></th>
                     </tr>
                 )}
             </tbody>

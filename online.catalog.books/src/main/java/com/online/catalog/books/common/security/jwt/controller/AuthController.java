@@ -20,9 +20,9 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
-  @Autowired AuthenticationManager authenticationManager;
+  @Autowired private AuthenticationManager authenticationManager;
 
-  @Autowired JwtUtils jwtUtils;
+  @Autowired private JwtUtils jwtUtils;
 
   @PostMapping("/signin")
   public ResponseEntity<JwtResponse> authenticateUser(

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { SplitButton, Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import authHeader from "../context/authHeader";
-import { Redirect } from 'react-router';
 
-class BookActionButton extends Component {
+class AuthorActionButton extends Component {
   constructor(props){
     super(props);
     this.state = {
-      action:props.bookListAction,
+      action:"edit",
       isClickedEdit:false
     }
   }
@@ -25,31 +24,21 @@ class BookActionButton extends Component {
   act = (event) => {
     event.preventDefault();
     if(this.state.action == "edit"){
-      this.props.setBookForEdit(this.props.book);
+      this.props.setAuthorForEdit(this.props.author);
       this.setIsClickedEdit(true);
     } else if (this.state.action == "delete") {
-      console.log(this.props.book)
-      axios.delete(`http://localhost:8081/api/v1/books/${this.props.book.id}`,{
+      console.log(this.props.author)
+      axios.delete(`http://localhost:8081/api/v1/authors/${this.props.author.id}`,{
         headers : authHeader()
       }).then(result => {
         console.log(result)
       }).catch(e => {
         console.log(e.message)
       });
-    } else {
-      console.log(authHeader())
-    axios.put(`http://localhost:8081/api/v1/users/bookList/${this.state.action}/${this.props.book.id}`,null,{
-      headers :  authHeader()
-    }).then(result => {
-      console.log(result)
-    }).catch(e => {
-      console.log(e.message)
-    });
     }
   }
   
   render() {
-    console.log(this.state.isClickedEdit)
     return (        
     <div>
       <SplitButton
@@ -60,8 +49,7 @@ class BookActionButton extends Component {
         title={this.state.action}
         onClick={this.act}
       >
-          <Dropdown.Item eventKey={this.props.bookListAction} onSelect={this.chooseAction}>{this.props.bookListAction}</Dropdown.Item>
-          <Dropdown.Item eventKey="edit" onSelect={this.chooseAction}>edit</Dropdown.Item>
+         <Dropdown.Item eventKey="edit" onSelect={this.chooseAction}>edit</Dropdown.Item>
           <Dropdown.Item eventKey="delete" onSelect={this.chooseAction}>delete</Dropdown.Item>
       </SplitButton>
     </div>
@@ -70,4 +58,4 @@ class BookActionButton extends Component {
   }
 }
 
-export default BookActionButton;
+export default AuthorActionButton;
