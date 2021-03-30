@@ -52,13 +52,19 @@ public class UserServiceV1 implements UserService {
   public List<BookDto> removeBook(Long bookId) {
     User user = getCurrentUser();
 
-    if (!user.getBooks().removeIf(book -> book.getId().equals(bookId))) {
-      throw new NotFoundException("Book with specified id not found in list of book");
+    if(Boolean.FALSE.equals(isBookInBookList(bookId,user))){
+      throw new NotFoundException("Book not found in book list");
     }
 
+    user.getBooks().removeIf(book -> book.getId().equals(bookId));
     userRepository.save(user);
 
     return bookConverter.fromListEntity(user.getBooks());
+  }
+
+  @Override
+  public Boolean isBookInBookList(Long bookId, User user) {
+     return user.getBooks().stream().anyMatch(book -> book.getId().equals(bookId));
   }
 
   @Override

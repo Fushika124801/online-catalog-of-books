@@ -14,4 +14,6 @@ public interface UserService {
   List<BookDto> removeBook(Long bookId);
 
   List<BookDto> getBookList();
+
+  Boolean isBookInBookList(Long bookId, User user);
 }

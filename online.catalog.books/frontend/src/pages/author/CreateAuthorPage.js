@@ -77,8 +77,8 @@ export default class CreateAuthorPage extends Component{
                 <label for="sel1">Sex:</label>
                 <select class="form-control" onSelect={this.setSex}>
                         <option value="MALE">MALE</option>
-                        <option value="MALE">FEMALE</option>
-                        <option selected value="MALE">UNDEFINED</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option selected value="UNDEFINED">UNDEFINED</option>
                 </select>
             </div>
             <div className="d-flex pt-5  flex-row-reverse pb-5 w-50">

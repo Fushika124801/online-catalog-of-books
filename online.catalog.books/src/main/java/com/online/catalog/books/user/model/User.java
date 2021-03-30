@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name="\"USERS\"")
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(unique = true)
   private String username;
   private String password;
 

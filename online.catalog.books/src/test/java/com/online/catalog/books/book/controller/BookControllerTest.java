@@ -9,75 +9,82 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 class BookControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
   @Test
+  @Transactional
   void testGetAll() throws Exception {
     MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/api/v1/books");
 
     this.mockMvc
-        .perform(get)
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+      .perform(get)
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
+  @Transactional
   void testGet() throws Exception {
     MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/api/v1/books/1");
 
     this.mockMvc
-        .perform(get)
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(1L));
+      .perform(get)
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.id").value(1L));
   }
 
   @Test
+  @Transactional
   void save() throws Exception {
     MockHttpServletRequestBuilder save =
-        MockMvcRequestBuilders.post("/api/v1/books")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-                "{\"name\":\"viva lia Mexico\","
-                    + "\"yearPublication\":\"1887\","
-                    + "\"authors\":[{"
-                    + "\"id\":1"
-                    + "}]"
-                    + "}");
+      MockMvcRequestBuilders.post("/api/v1/books")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(
+          "{\"name\":\"viva lia Mexico\","
+            + "\"yearPublication\":\"1887\","
+            + "\"authors\":[{"
+            + "\"id\":1"
+            + "}]"
+            + "}");
 
     this.mockMvc
-        .perform(save)
-        .andExpect(status().isCreated())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.name").value("viva lia Mexico"))
-        .andExpect(jsonPath("$.yearPublication").value("1887"));
+      .perform(save)
+      .andExpect(status().isCreated())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.name").value("viva lia Mexico"))
+      .andExpect(jsonPath("$.yearPublication").value("1887"));
   }
 
   @Test
+  @Transactional
   void edit() throws Exception {
     MockHttpServletRequestBuilder edit =
-        MockMvcRequestBuilders.put("/api/v1/books/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-                "{\"name\":\"viva lia Mexico\","
-                    + "\"yearPublication\":\"1887\","
-                    + "\"authors\":[{"
-                    + "\"id\":1"
-                    + "}]"
-                    + "}");
+      MockMvcRequestBuilders.put("/api/v1/books/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(
+          "{\"name\":\"viva lia Mexico\","
+            + "\"yearPublication\":\"1887\","
+            + "\"authors\":[{"
+            + "\"id\":1"
+            + "}]"
+            + "}");
 
     this.mockMvc
-        .perform(edit)
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(1L))
-        .andExpect(jsonPath("$.name").value("viva lia Mexico"))
-        .andExpect(jsonPath("$.yearPublication").value("1887"));
+      .perform(edit)
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.id").value(1L))
+      .andExpect(jsonPath("$.name").value("viva lia Mexico"))
+      .andExpect(jsonPath("$.yearPublication").value("1887"));
   }
 }

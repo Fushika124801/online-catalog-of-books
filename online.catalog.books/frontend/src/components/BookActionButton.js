@@ -9,6 +9,7 @@ class BookActionButton extends Component {
     super(props);
     this.state = {
       action:props.bookListAction,
+      isClickedButton:false,
       isClickedEdit:false
     }
   }
@@ -22,6 +23,10 @@ class BookActionButton extends Component {
     this.setState({isClickedEdit:isClickedEdit});
   }
 
+  setButtonIsClicked = () => {
+    this.setState({isClickedButton:this.state.isClickedButton ? false : true});
+  }
+
   act = (event) => {
     event.preventDefault();
     if(this.state.action == "edit"){
@@ -29,6 +34,7 @@ class BookActionButton extends Component {
       this.setIsClickedEdit(true);
     } else if (this.state.action == "delete") {
       console.log(this.props.book)
+      console.log("delete")
       axios.delete(`http://localhost:8081/api/v1/books/${this.props.book.id}`,{
         headers : authHeader()
       }).then(result => {
@@ -36,6 +42,7 @@ class BookActionButton extends Component {
       }).catch(e => {
         console.log(e.message)
       });
+      this.setButtonIsClicked();
     } else {
       console.log(authHeader())
     axios.put(`http://localhost:8081/api/v1/users/bookList/${this.state.action}/${this.props.book.id}`,null,{
@@ -45,6 +52,8 @@ class BookActionButton extends Component {
     }).catch(e => {
       console.log(e.message)
     });
+    
+    this.props.getBooks();
     }
   }
   

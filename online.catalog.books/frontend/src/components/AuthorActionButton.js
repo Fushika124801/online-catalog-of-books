@@ -8,6 +8,7 @@ class AuthorActionButton extends Component {
     super(props);
     this.state = {
       action:"edit",
+      isClickedButton:false,
       isClickedEdit:false
     }
   }
@@ -19,6 +20,11 @@ class AuthorActionButton extends Component {
 
   setIsClickedEdit = (isClickedEdit) => {
     this.setState({isClickedEdit:isClickedEdit});
+  }
+
+  
+  setButtonIsClicked = () => {
+    this.setState({isClickedButton:this.state.isClickedButton ? false : true});
   }
 
   act = (event) => {
@@ -36,6 +42,8 @@ class AuthorActionButton extends Component {
         console.log(e.message)
       });
     }
+    
+    this.setIsClickedEdit(true);
   }
   
   render() {

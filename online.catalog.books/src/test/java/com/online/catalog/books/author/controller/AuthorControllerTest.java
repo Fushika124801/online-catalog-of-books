@@ -9,6 +9,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.transaction.Transactional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -18,6 +20,7 @@ class AuthorControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @Test
+  @Transactional
   void testGetAll() throws Exception {
     MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/api/v1/authors");
 
@@ -28,6 +31,7 @@ class AuthorControllerTest {
   }
 
   @Test
+  @Transactional
   void testGet() throws Exception {
     MockHttpServletRequestBuilder get = MockMvcRequestBuilders.get("/api/v1/authors/1");
 
@@ -39,6 +43,7 @@ class AuthorControllerTest {
   }
 
   @Test
+  @Transactional
   void create() throws Exception {
     MockHttpServletRequestBuilder save =
         MockMvcRequestBuilders.post("/api/v1/authors")
@@ -58,6 +63,7 @@ class AuthorControllerTest {
   }
 
   @Test
+  @Transactional
   void edit() throws Exception {
     MockHttpServletRequestBuilder edit =
         MockMvcRequestBuilders.put("/api/v1/authors/1")

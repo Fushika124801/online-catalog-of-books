@@ -56,7 +56,11 @@ public class BookServiceV1 implements BookService {
   @Override
   public void delete(Long bookId) {
     checkBookExist(bookId);
-    userService.removeBook(bookId);
+
+    if(Boolean.TRUE.equals(userService.isBookInBookList(bookId,userService.getCurrentUser()))){
+      userService.removeBook(bookId);
+    }
+
     bookRepository.deleteById(bookId);
   }
 

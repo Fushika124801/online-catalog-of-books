@@ -4,18 +4,21 @@ import {BookList} from './pages/book/BookList';
 import {AuthorList} from './pages/author/AuthorList';
 import Login from "./pages/Login";
 import {AuthContext} from "./context/auth";
+import authHeader, {AuthHeader} from "./context/authHeader";
 import PrivateRoute from "./PrivateRoute";
 import {EditAuthorPage} from "./pages/author/EditAuthorPage"
 import CreateAuthorPage from "./pages/author/CreateAuthorPage";
 import {EditBookPage} from "./pages/book/EditBookPage"
 import CreateBookPage from "./pages/book/CreateBookPage";
+import {useAuth } from "./context/auth";
 
 function App(props) {
   const existingTokens = JSON.parse(localStorage.getItem("user"));
   const [authTokens, setAuthTokens] = useState(existingTokens);
   const [bookForEdit,setBookForEdit] = useState(null);
   const [authorForEdit,setAuthorForEdit] = useState(null);
-  
+  const isAuthenticated = existingTokens;
+
   const setTokens = (data) => {
     localStorage.setItem("user", JSON.stringify(data));
     setAuthTokens(data);
@@ -24,14 +27,14 @@ function App(props) {
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
-      <div className="row pb-5 pt-3">
+      {isAuthenticated && <div className="row pb-5 pt-3">
                 <div className="col">
                   <Link to="/bookList"><button className="btn btn-secondary btn-lg pg  btn-block">Books</button></Link>
                 </div>
                 <div className="col">
                   <Link to="/authorList"> <button className="btn btn-secondary btn-lg pg  btn-block">Authors</button></Link>
                 </div>
-                </div>
+      </div>}
       {bookForEdit && <Redirect to="/edit/book" />}
       <Route path="/login" component={Login} />
       <PrivateRoute path="/bookList" component={() => <BookList setBookForEdit={setBookForEdit}/>} />

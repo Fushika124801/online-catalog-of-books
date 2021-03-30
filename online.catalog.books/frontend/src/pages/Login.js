@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useAuth } from "../context/auth";
 
 function Login() {
-
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
     const [username, setUserName] = useState("");
@@ -33,7 +32,7 @@ function Login() {
   return (
     <div className="container pt-3">
       {isLoggedIn && <Redirect to="/bookList" />}
-      <h2>Login to the Help Desk</h2>
+      <h2>Login to the Online catalog books</h2>
       <form>
       <div className="form-group">
         <label for="username">User Name:</label>
