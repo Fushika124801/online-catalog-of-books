@@ -69,20 +69,20 @@ public class Book implements Serializable {
     this.yearPublication = yearPublication;
   }
 
-  public List<Author> getAuthor() {
-    return authors;
-  }
-
-  public void setAuthor(List<Author> authors) {
-    this.authors = authors;
-  }
-
   public String getPublishingHouse() {
     return publishingHouse;
   }
 
   public void setPublishingHouse(String publishingHouse) {
     this.publishingHouse = publishingHouse;
+  }
+
+  public List<Author> getAuthors() {
+    return authors;
+  }
+
+  public void setAuthors(List<Author> authors) {
+    this.authors = authors;
   }
 
   @Override
